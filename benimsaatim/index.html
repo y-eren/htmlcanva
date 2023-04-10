@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <canvas id="benimcanvam" width="400" height="400" style="background-color: rgb(78, 55, 55);"></canvas>
+        <img height="80" width="100"id="resim" src="https://howtodrawforkids.com/wp-content/uploads/2022/01/how-to-draw-a-smurf.jpg">
+      
+        <script>
+            var canvas = document.getElementById("benimcanvam");
+            var ctx = canvas.getContext("2d");
+            var yaricap = canvas.height / 2;
+            ctx.translate(yaricap, yaricap);
+            yaricap = yaricap *0.9;
+            setInterval(anafonksiyon,1000);
+            
+            
+            
+            function anafonksiyon()
+            {
+                ciz(ctx, yaricap);
+                sayilariyaz(ctx,yaricap);
+                zamanayari(ctx,yaricap);
+                imza(ctx,yaricap);
+                
+
+            }
+
+            function ciz(ctx, yaricap){
+                // merkez noktasi belirlenir
+                ctx.beginPath();
+                ctx.arc(0,0,yaricap, 0, 2 *Math.PI);
+                ctx.fillStyle = "white";
+    
+                ctx.fill();
+                
+                var gradient = ctx.createRadialGradient(0,0,yaricap*0.95,0,0, yaricap*1.05);
+                gradient.addColorStop(0,'#333');
+                gradient.addColorStop(0.5,'white');
+                gradient.addColorStop(1,'#333');
+
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = yaricap * 0.1;
+                ctx.stroke();
+            }
+
+            function sayilariyaz(ctx, yaricap)
+            {
+                ctx.font = yaricap * 0.15 + "px arial";
+                ctx.fillStyle = "orange";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+               
+                var aci;
+
+                for(var num = 1; num < 13; num++)
+                {
+                    aci =  num * Math.PI/ 6;
+                    ctx.rotate(aci);
+                    ctx.translate(0,-yaricap* 0.85);
+                    ctx.rotate(-aci);
+                    ctx.fillText(num.toString(), 0,0);
+                    ctx.rotate(aci);
+                    ctx.translate(0, yaricap * 0.85);
+                    ctx.rotate(-aci);
+                }
+            }
+
+            function zamanayari(ctx,yaricap)
+            {
+                var zaman = new Date();
+                var saat = zaman.getHours();
+                var dakika = zaman.getMinutes();
+                var saniye = zaman.getSeconds();
+
+                saat = saat % 12;
+
+
+               saat = (saat * Math.PI/6) + (dakika * Math.PI/(60*6)) + (saniye * Math.PI/(60*30));
+               // derece dondu demek icin
+                akrepyelkovan(ctx,saat,yaricap*0.5, yaricap*0.07);
+               dakika = (dakika * Math.PI/30) + (saniye * Math.PI/(60*30));
+               // derece dondu
+               akrepyelkovan(ctx,dakika, yaricap*0.8, yaricap*0.07);
+               saniye = (saniye * Math.PI/30);
+               akrepyelkovan(ctx,saniye,yaricap*0.9, yaricap*0.02);
+            }
+
+
+            function akrepyelkovan(ctx, aci, uzunluk, genislik)
+            {
+                ctx.beginPath();
+                ctx.lineWidth = genislik;
+                ctx.lineCap = "round";
+                ctx.rotate(aci);
+                ctx.moveTo(0,0);
+                ctx.lineTo(0, -uzunluk);
+                ctx.stroke();
+                ctx.rotate(-aci);
+
+            }
+            function imza(ctx, yaricap)
+            {
+                ctx.font = "30px arial";
+                ctx.fillStyle = "purple";
+                ctx.textAlign = "center";
+                ctx,textBaseline = "middle";
+                ctx.fillText("İyi günler Dilerim",0, yaricap* 0.5);
+                var resim = document.getElementById("resim");
+                var resimGenislik = resim.width;
+  var resimYukseklik = resim.height;
+
+
+                ctx.drawImage(resim,-resimGenislik / 2,-yaricap + resimYukseklik / 2,resimGenislik,resimYukseklik );
+            }
+
+           
+        </script>
+    </body>
+</html>
